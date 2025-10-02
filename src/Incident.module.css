@@ -1,0 +1,12 @@
+
+.incidentCard {
+    border: 1px solid black;
+    background-color: #50d2ab;
+    display: inline-block;
+    padding: 10px;
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

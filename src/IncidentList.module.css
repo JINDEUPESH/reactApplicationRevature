@@ -1,0 +1,29 @@
+
+.incidentListHeader{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.incidentList {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items:flex-start;
+    margin-right: 10px;
+    margin-bottom: 15px;
+}
+
+.main{
+    background-color: #366658;
+    height: 50px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    font-size: 20px;
+}
+
+.inputVal{
+    margin-left: 40px;
+}
