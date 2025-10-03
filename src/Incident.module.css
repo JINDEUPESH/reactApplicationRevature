@@ -3,7 +3,8 @@
     border: 1px solid black;
     background-color: #50d2ab;
     display: inline-block;
-    padding: 10px;
+    padding: 1rem;
+    border-radius: 8px;
     margin: 20px;
     display: flex;
     flex-direction: column;
@@ -27,3 +28,9 @@
     color: #90caf9; /* lighter contrast */
   }
   
+
+  
+  .incidentCard.dark {
+    background: #1e1e1e;
+    color: #e0e0e0;
+  }

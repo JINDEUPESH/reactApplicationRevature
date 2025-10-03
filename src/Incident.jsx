@@ -7,7 +7,6 @@ import { ThemeContext } from './ThemeContext.jsx';
 function Incident( {data, handleDelete}) {
 
   const theme = useContext(ThemeContext);
-
   const {incident_id, priority, severity, status} = data;
 
   return (

@@ -3,8 +3,16 @@ import styles from './Home.module.css';
 import IncidentList from './IncidentList.jsx';
 import Welcome from './Welcome.jsx';
 import data from './assets/incidents.json';
-import { createContext } from 'react';
 import { ThemeContext } from './ThemeContext.jsx';
+
+import { BrowserRouter } from 'react-router-dom';
+import { createRoot } from 'react-dom/client';
+
+import { Routes, Route, Link } from 'react-router-dom';
+
+
+
+
 
 function incidentReducer(state, action) {
   switch (action.type) {
@@ -24,20 +32,9 @@ function Home({ toggleDarkMode }) {
 
   const theme = useContext(ThemeContext);
 
-  const [homePageView, setHomePageView] = useState(true);
-  const [incidentPageView, setIncidentPageView] = useState(false);
   const [incidents, dispatch] = useReducer(incidentReducer, data);
 
 
-  function handleSetHomePageView() {
-    setHomePageView(true);
-    setIncidentPageView(false);
-  }
-
-  function handleSetIncidentPageView() {
-    setHomePageView(false);
-    setIncidentPageView(true);
-  }
 
   function handleDelete(id) {
     dispatch({ type: 'delete', payload: id });
@@ -59,10 +56,12 @@ function Home({ toggleDarkMode }) {
         </p>
         <ul className={styles.navbar}>
           <li className={styles.listItem}>
-            <a href="#" onClick={handleSetHomePageView} className={styles.navLink}>Home</a>
+            {/* <a href="#" onClick={handleSetHomePageView} className={styles.navLink}>Home</a> */}
+            <Link to="/" className={styles.navLink}>Home</Link>
           </li>
           <li className={styles.listItem}>
-            <a href="#" onClick={handleSetIncidentPageView} className={styles.navLink}>Incidents</a>
+            {/* <a href="#" onClick={handleSetIncidentPageView} className={styles.navLink}>Incidents</a> */}
+            <Link to="/incidents" className={styles.navLink}> Incidents</Link>
           </li>
         </ul>
         <button onClick={toggleDarkMode} >
@@ -70,9 +69,13 @@ function Home({ toggleDarkMode }) {
         </button>
       </header>
 
+      <Routes>
+        <Route path='/' element={<Welcome />}/>
+        <Route path='/incidents' element={<IncidentList incidents={incidents} onDelete={handleDelete} onAdd={handleOnAdd} />} />
+      </Routes>
 
-      {/* show page based on click */}
-      {(!homePageView && incidentPageView) ? (<IncidentList incidents={incidents} onDelete={handleDelete} onAdd={handleOnAdd} />) : (<Welcome />)}
+      {/* show page based on click
+      {(!homePageView && incidentPageView) ? (<IncidentList incidents={incidents} onDelete={handleDelete} onAdd={handleOnAdd} />) : (<Welcome />)} */}
 
     </>
   );
