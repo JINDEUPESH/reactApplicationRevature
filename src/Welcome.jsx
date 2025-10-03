@@ -1,4 +1,7 @@
 import { useState, useEffect } from "react";
+import axios from "axios";
+import { Card, CardContent, Typography, Button, Box } from "@mui/material";
+
 
 function Welcome() {
   const key = import.meta.env.VITE_API_KEY;
@@ -14,9 +17,8 @@ function Welcome() {
 
     async function fetchData() {
       try {
-        let results = await fetch(url, { signal });
-        let parsedResponse = await results.json();
-        setArticle(parsedResponse.articles[randomIndex]);
+        let results = await axios.get(url, { signal });
+        setArticle(results.data.articles[randomIndex]);
       }
       catch (err) {
         console.error("Error fetching news:", err);
@@ -30,14 +32,27 @@ function Welcome() {
 
   return (
     <>
-      <h1>Top Headline</h1>
+      <Box sx={{ p: 3 }}>
+      <Typography variant="h4" gutterBottom>
+        Top Headline
+      </Typography>
+
       {article ? (
-        <div> <h4>{article.title}</h4> <p>{article.description}</p>
-          <a href={article.url} target="_blank">Read more</a>
-        </div>
+        <Card sx={{ maxWidth: 600, mb: 3 }}>
+          <CardContent>
+            <Typography variant="h6" gutterBottom>
+              {article.title}
+            </Typography>
+            <Typography variant="body2" color="text.secondary" paragraph>
+              {article.description}
+            </Typography>
+            <Button variant="contained"  size="small"  color="primary" href={article.url}  target="_blank">Read More</Button>
+          </CardContent>
+        </Card>
       ) : (
-        <p>Loading...</p>
+        <Typography>Loading...</Typography>
       )}
+    </Box>
     </>
   );
 }

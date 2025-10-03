@@ -3,21 +3,31 @@ import styles from './Incident.module.css';
 
 import { useContext } from 'react';
 import { ThemeContext } from './ThemeContext.jsx';
+import { Card, CardContent, Typography, Button } from "@mui/material";
 
-function Incident( {data, handleDelete}) {
+function Incident({ data, handleDelete }) {
 
   const theme = useContext(ThemeContext);
-  const {incident_id, priority, severity, status} = data;
+  const { incident_id, priority, severity, status } = data;
 
   return (
     <>
-          <div className={`${styles.incidentCard} ${theme === 'dark' ? styles.dark : ''}`}>
-              <p>INC Id : {incident_id}</p>
-              <p>Priority : {priority}</p>
-              <p>Severity: {severity}</p>
-              <p>Status : {status}</p>
-              <button onClick={handleDelete} >Delete</button>
-          </div>
+      <Card sx={{ minWidth: 250, maxWidth: 300, m: 1 }}>
+      <CardContent>
+        <Typography>ID: {incident_id}</Typography>
+        <Typography>Priority: {priority}</Typography>
+        <Typography>Severity: {severity}</Typography>
+        <Typography>Status: {status}</Typography>
+        <Button
+          variant="contained"
+          color="error"
+          onClick={handleDelete}
+          sx={{ mt: 2 }}
+        >
+          Delete
+        </Button>
+      </CardContent>
+    </Card>
     </>
   );
 }
