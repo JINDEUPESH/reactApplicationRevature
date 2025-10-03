@@ -1,17 +1,25 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-
-import Home from './Home.jsx'
-import IncidentList from './IncidentList.jsx';
+import { useState, useContext } from 'react';
+import Home from './Home.jsx';
+import {ThemeContext}  from './ThemeContext.jsx';
 
 
 function App() {
-  const [count, setCount] = useState(0)
+  
+  let [darkmode, setDarkmode] = useState('light');
+
+  function handleToggleDarkMode() {
+    if (darkmode === 'light') {
+      setDarkmode('dark');
+    } else {
+      setDarkmode('light');
+    }
+  }
 
   return (
     <>
-    <Home></Home>
+        <ThemeContext.Provider value={darkmode}>
+          <Home toggleDarkMode={handleToggleDarkMode}></Home>
+          </ThemeContext.Provider>
     </>
         
   )

@@ -1,8 +1,12 @@
 import Incident from './Incident.jsx';
 import styles from './IncidentList.module.css';
-import {useState} from 'react';
+import {useState, useContext} from 'react';
+import {ThemeContext} from './ThemeContext.jsx';
 
 function IncidentList({ incidents, onDelete, onAdd }) {
+
+    const theme = useContext(ThemeContext);
+    const incidentListClass = `${styles.incidentList} ${theme === 'dark' ? styles.dark : ''}`;
 
     const[form, setForm] = useState({
         inc_id: "",
@@ -77,7 +81,7 @@ function IncidentList({ incidents, onDelete, onAdd }) {
       </main>
 
       <h1 className={styles.incidentListHeader}>All Incidents List</h1>
-      <div className={styles.incidentList}>
+      <div className={incidentListClass}>
         {incidents.map((incident) => (
           <Incident
             key={incident.incident_id}

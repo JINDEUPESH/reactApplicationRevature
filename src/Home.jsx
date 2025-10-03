@@ -1,9 +1,10 @@
-import { useState, useReducer } from 'react';
+import { useState, useReducer, useContext } from 'react';
 import styles from './Home.module.css';
 import IncidentList from './IncidentList.jsx';
 import Welcome from './Welcome.jsx';
 import data from './assets/incidents.json';
-
+import { createContext } from 'react';
+import { ThemeContext } from './ThemeContext.jsx';
 
 function incidentReducer(state, action) {
   switch (action.type) {
@@ -13,19 +14,20 @@ function incidentReducer(state, action) {
       return state.filter((incident) => incident.incident_id !== action.payload);
     default:
       return incidents;
-  } 
+  }
 }
 
+function Home({ toggleDarkMode }) {
 
-function Home() {
   const name = "Upesh";
   const date = new Date();
+
+  const theme = useContext(ThemeContext);
 
   const [homePageView, setHomePageView] = useState(true);
   const [incidentPageView, setIncidentPageView] = useState(false);
   const [incidents, dispatch] = useReducer(incidentReducer, data);
 
-  // const [incidents, setIncidents] = useState(data);
 
   function handleSetHomePageView() {
     setHomePageView(true);
@@ -38,21 +40,21 @@ function Home() {
   }
 
   function handleDelete(id) {
-      dispatch({ type: 'delete', payload: id });
+    dispatch({ type: 'delete', payload: id });
     // setIncidents((prev) =>prev.filter((incident) => incident.incident_id !== id));
   }
 
-    function handleOnAdd(newIncident) {
-        dispatch({ type: 'add', payload: newIncident });
-        // setIncidents((prev) => [...prev, newIncident]);
-    }
-    
+  function handleOnAdd(newIncident) {
+    dispatch({ type: 'add', payload: newIncident });
+    // setIncidents((prev) => [...prev, newIncident]);
+  }
+
   return (
     <>
-      <header className={styles.header}>
+      <header className={`${styles.header} ${theme === 'dark' ? styles.dark : ''}`}>
         <p>Welcome {name}</p>
         <p>
-          Today's date is {date.getDate()}/{date.getMonth()+1}/{date.getFullYear()}  
+          Today's date is {date.getDate()}/{date.getMonth() + 1}/{date.getFullYear()}
           {date.getHours()}:{date.getMinutes()}:{date.getSeconds()}
         </p>
         <ul className={styles.navbar}>
@@ -63,11 +65,14 @@ function Home() {
             <a href="#" onClick={handleSetIncidentPageView} className={styles.navLink}>Incidents</a>
           </li>
         </ul>
+        <button onClick={toggleDarkMode} >
+          {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
+        </button>
       </header>
 
-       
-        {/* show page based on click */}
-      {(!homePageView && incidentPageView) ? (<IncidentList incidents={incidents} onDelete={handleDelete}  onAdd={handleOnAdd} />) : (<Welcome />)}
+
+      {/* show page based on click */}
+      {(!homePageView && incidentPageView) ? (<IncidentList incidents={incidents} onDelete={handleDelete} onAdd={handleOnAdd} />) : (<Welcome />)}
 
     </>
   );

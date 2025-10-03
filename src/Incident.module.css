@@ -10,3 +10,20 @@
     justify-content: center;
     align-items: center;
 }
+
+.header {
+    background: white;
+    color: black;
+  }
+  .header.dark {
+    background: #121212;  /* deep dark */
+    color: #f5f5f5;      /* light contrast */
+  }
+  
+  .navLink {
+    color: blue;
+  }
+  .navLink.dark {
+    color: #90caf9; /* lighter contrast */
+  }
+  
