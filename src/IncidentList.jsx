@@ -14,7 +14,11 @@ import {
   Grid
 } from "@mui/material";
 
-function IncidentList({ incidents, onDelete, onAdd }) {
+function IncidentList({ incidents, onDelete, onAddOrUpdate  }) {
+
+  const[editing, setEditing] = useState(false);
+  const[editId, setEditId] = useState();
+
   const [form, setForm] = useState({
     inc_id: "",
     priority: "low",
@@ -29,15 +33,22 @@ function IncidentList({ incidents, onDelete, onAdd }) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    const newIncident = {
-      incident_id: form.inc_id,
-      priority: form.priority,
-      severity: form.severity,
-      status: form.status
-    };
-    onAdd(newIncident);
-    setForm({ inc_id: "", priority: "low", severity: "4", status: "open" });
-    alert("Incident Created Successfully!");
+  const newIncident = {
+    incident_id: form.inc_id,
+    priority: form.priority,
+    severity: form.severity,
+    status: form.status
+  };
+
+  onAddOrUpdate(newIncident, editing);
+  setForm({ inc_id: "", priority: "low", severity: "4", status: "open" });
+  setEditing(false);
+  }
+
+  function onEdit(id, priority, severity, status) {
+    setForm({ inc_id: id, priority, severity, status });
+    setEditing(true);
+    setEditId(id);
   }
 
   return (
@@ -113,7 +124,7 @@ function IncidentList({ incidents, onDelete, onAdd }) {
             sx={{ mt: 2 }}
             fullWidth
           >
-            Save
+            {editing ? "Update Incident" : "save"}
           </Button>
         </form>
       </Paper>
@@ -129,6 +140,7 @@ function IncidentList({ incidents, onDelete, onAdd }) {
             <Incident
               data={incident}
               handleDelete={() => onDelete(incident.incident_id)}
+              handleEdit={() => onEdit(incident.incident_id, incident.priority, incident.severity, incident.status)}
             />
           </Grid>
         ))}

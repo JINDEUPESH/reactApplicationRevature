@@ -16,8 +16,14 @@ function incidentReducer(state, action) {
       return [...state, action.payload];
     case 'delete':
       return state.filter((incident) => incident.incident_id !== action.payload);
+    case 'update':
+      return state.map((incident) =>
+        incident.incident_id === action.payload.incident_id
+          ? action.payload
+          : incident
+      );
     default:
-      return incidents;
+      return state;
   }
 }
 
@@ -36,8 +42,12 @@ function Home({ toggleDarkMode }) {
     dispatch({ type: 'delete', payload: id });
   }
 
-  function handleOnAdd(newIncident) {
-    dispatch({ type: 'add', payload: newIncident });
+  function handleAddOrUpdate(incident, editing) {
+    if (editing) {
+      dispatch({ type: 'update', payload: incident });
+    } else {
+      dispatch({ type: 'add', payload: incident });
+    }
   }
 
   return (
@@ -58,11 +68,8 @@ function Home({ toggleDarkMode }) {
 
       <Routes>
         <Route path='/' element={<Welcome />} />
-        <Route path='/incidents' element={<IncidentList incidents={incidents} onDelete={handleDelete} onAdd={handleOnAdd} />} />
+        <Route path='/incidents' element={<IncidentList  incidents={incidents} onDelete={handleDelete}  onAddOrUpdate={handleAddOrUpdate}/>} />
       </Routes>
-
-
-
     </>
   );
 }
